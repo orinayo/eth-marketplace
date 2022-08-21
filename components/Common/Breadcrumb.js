@@ -1,4 +1,4 @@
-export default function HomeBreadcrumb() {
+export default function Breadcrumb() {
   return (
     <nav aria-label="breadcrumb" className="mb-4">
       <ol className="flex leading-none text-indigo-600 divide-x divide-indigo-400">

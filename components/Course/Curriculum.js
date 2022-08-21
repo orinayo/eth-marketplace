@@ -1,4 +1,4 @@
-export default function CourseLectures({lectures}) {
+export default function Curriculum({ lectures }) {
   return (
     <section className="max-w-5xl mx-auto">
       <div className="flex flex-col">

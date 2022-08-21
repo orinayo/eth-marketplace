@@ -1,4 +1,4 @@
-export default function HomeAddress() {
+export default function WalletBar() {
   return (
     <section className="text-white bg-indigo-600">
       <div className="p-8">

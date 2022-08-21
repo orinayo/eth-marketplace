@@ -1,4 +1,4 @@
-export default function CourseKeypoint() {
+export default function Keypoints() {
   return (
     <section>
       <div className="py-12 bg-white">

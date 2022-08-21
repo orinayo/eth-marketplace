@@ -1,10 +1,7 @@
-import Address from "@components/Home/Address";
-import Breadcrumb from "@components/Home/Breadcrumb";
-import CourseCard from "@components/Home/CourseCard";
-import Footer from "@components/Home/Footer";
-import Hero from "@components/Home/Hero";
-import Navbar from "@components/Home/Navbar";
-import OrderInfo from "@components/Home/OrderInfo";
+import { Breadcrumb, Footer, Hero, Navbar } from "@components/Common";
+import { CourseList } from "@components/Course";
+import { OrderCard } from "@components/Order";
+import { EthRates, WalletBar } from "@components/Web3";
 
 export default function Home() {
   return (
@@ -15,9 +12,10 @@ export default function Home() {
           <div className="fit">
             <Hero />
             <Breadcrumb />
-            <Address />
-            <OrderInfo />
-            <CourseCard />
+            <WalletBar />
+            <EthRates />
+            <OrderCard />
+            <CourseList />
           </div>
         </div>
         <Footer />

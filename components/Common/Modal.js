@@ -1,4 +1,4 @@
-export default function CourseModal() {
+export default function Modal() {
   return (
     <section>
       {/* Remove hidden to display it */}

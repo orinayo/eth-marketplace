@@ -1,7 +1,5 @@
-import Modal from "@components/Course/Modal";
-import Hero from "@components/Course/Hero";
-import Keypoint from "@components/Course/Keypoint";
-import Lectures from "@components/Course/Lectures";
+import { Modal } from "@components/Common";
+import { Curriculum, CourseHero, Keypoints } from "@components/Course";
 
 export default function Course() {
   const lectures = [
@@ -15,9 +13,9 @@ export default function Course() {
 
   return (
     <div className="relative max-w-7xl mx-auto px-4">
-      <Hero />
-      <Keypoint />
-      <Lectures lectures={lectures} />
+      <CourseHero />
+      <Keypoints />
+      <Curriculum lectures={lectures} />
       <Modal />
     </div>
   );

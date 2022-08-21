@@ -1,4 +1,4 @@
-export default function HomeNavbar() {
+export default function Navbar() {
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
