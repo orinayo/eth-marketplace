@@ -19,7 +19,6 @@ export const createUseAccount = (web3, provider) => () => {
       provider.on("accountsChanged", (accounts) => mutate(accounts[0] ?? null));
   }, [provider]);
 
-  console.log(data)
   return {
     account: {
       data,

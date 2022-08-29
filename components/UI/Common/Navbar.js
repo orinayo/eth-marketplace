@@ -1,13 +1,15 @@
 import { useWeb3 } from "@components/Providers";
 import Link from "next/link";
 import { Button } from "@components/UI/Common";
-import { useAccount } from "@components/Web3/hooks/useAccount";
+import { useAccount } from "@components/hooks/web3/useAccount";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
   const { connect, isLoading, isWeb3Loaded } = useWeb3();
   const {
-    account: { data: accountData, isAdmin },
+    account: { data: address, isAdmin },
   } = useAccount();
+  const { pathname } = useRouter();
 
   const renderContent = () => {
     if (isLoading) {
@@ -30,7 +32,7 @@ export default function Navbar() {
       );
     }
 
-    if (accountData) {
+    if (address) {
       return (
         <Button hoverable={false} className="cursor-default">
           Hi there {isAdmin && "Admin"}
@@ -52,7 +54,7 @@ export default function Navbar() {
                   Home
                 </a>
               </Link>
-              <Link href="/">
+              <Link href="/marketplace">
                 <a className="font-medium mr-8 text-gray-500 hover:text-gray-900">
                   Marketplace
                 </a>
@@ -74,13 +76,14 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
-      {accountData && (
-        <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
-          <div className="text-white bg-indigo-600 rounded-md p-2">
-            {accountData}
+      {address &&
+        !pathname.includes("/marketplace")(
+          <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
+            <div className="text-white bg-indigo-600 rounded-md p-2">
+              {address}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </section>
   );
 }
