@@ -1,5 +1,6 @@
 import { Modal } from "@components/Common";
 import { Curriculum, CourseHero, Keypoints } from "@components/Course";
+import { BaseLayout } from "@components/Layout";
 
 export default function Course() {
   const lectures = [
@@ -12,11 +13,15 @@ export default function Course() {
   ];
 
   return (
-    <div className="relative max-w-7xl mx-auto px-4">
-      <CourseHero />
+    <>
+      <div className="py-4">
+        <CourseHero />
+      </div>
       <Keypoints />
       <Curriculum lectures={lectures} />
       <Modal />
-    </div>
+    </>
   );
 }
+
+Course.Layout = BaseLayout
