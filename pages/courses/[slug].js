@@ -1,6 +1,6 @@
-import { Modal } from "@components/Common";
-import { Curriculum, CourseHero, Keypoints } from "@components/Course";
-import { BaseLayout } from "@components/Layout";
+import { Modal } from "@components/UI/Common";
+import { Curriculum, CourseHero, Keypoints } from "@components/UI/Course";
+import { BaseLayout } from "@components/UI/Layout";
 import { getAllCourses } from "@content/courses/fetcher";
 
 export default function Course({
