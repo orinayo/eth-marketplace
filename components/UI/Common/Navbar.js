@@ -6,7 +6,7 @@ import { useAccount } from "@components/Web3/hooks/useAccount";
 export default function Navbar() {
   const { connect, isLoading, isWeb3Loaded } = useWeb3();
   const {
-    account: { data: accountData },
+    account: { data: accountData, isAdmin },
   } = useAccount();
 
   const renderContent = () => {
@@ -33,7 +33,7 @@ export default function Navbar() {
     if (accountData) {
       return (
         <Button hoverable={false} className="cursor-default">
-          Hi there
+          Hi there {isAdmin && "Admin"}
         </Button>
       );
     }
