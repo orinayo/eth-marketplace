@@ -1,67 +1,51 @@
 [
   {
     "id": "1410474",
-    "type": "Machine Learning",
-    "title": "Hands-on Machine Learning with Scikit-Learn, Keras and TensorFlow",
-    "description": "Concepts, Tools, and Techniques to Build Intelligent Systems",
-    "coverImage": "https://images-na.ssl-images-amazon.com/images/I/51aqYc1QyrL._SX379_BO1,204,203,200_.jpg",
-    "author": "Aurelien Geron",
-    "link": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/",
-    "slug": "handson-ml-with-scikitlearn-keras-tensorflow",
-    "wsl": [
-      "Learn Machine Learning fundamentals on your own",
-      "Build Machine Learning models with modern technologies",
-      "Use Machine Learning to your advantage"
-    ],
-    "createdAt": ""
-  },
-  {
-    "id": "848148",
-    "type": "React JS",
-    "title": "React JS & Firebase Complete Course (incl. Chat Application)",
-    "description": "Create 'real world' React JS applications connected to Firestore (Firebase). Redux, authentication + real time features!",
-    "coverImage": "https://thrangra.sirv.com/ReactFirebase.jpeg",
+    "type": "Next JS",
+    "title": "Next JS & Typescript with Shopify Integration - Full Guide",
+    "description": "Learn modern Next JS(Next 10+). Code everything in Typescript and integrate with Shopify.",
+    "coverImage": "https://thrangra.sirv.com/Next_TypeScript_Shopify_Final.jpg",
     "author": "Filip Jerga",
-    "link": "https://academy.eincode.com/courses/react-js-firebase-complete-course-incl-chat-application",
-    "slug": "react-js-firebase-complete-course-incl-chat-application",
+    "link": "https://academy.eincode.com/courses/next-js-typescript-with-shopify-integration-full-guide",
+    "slug": "next-js-typescript-with-shopify-integration-full-guide",
     "wsl": [
-      "Develop real-world web application with React JS and Firebase",
-      "Understand the processes and concepts of React JS 2",
-      "Use gained knowledge to create your own Web Applications"
+      "Build Next JS apps on your own",
+      "Build ecommerce apps with modern technologies",
+      "Use Shopify to your advantage"
     ],
     "createdAt": ""
   },
   {
     "id": "1331625",
-    "type": "React JS",
-    "title": "Complete React Developer in 2022 (w/ Redux, Hooks, GraphQL)",
-    "description": "Build a massive E-commerce app with Redux, Hooks, GraphQL, Stripe, Firebase",
-    "coverImage": "https://images.ctfassets.net/aq13lwl6616q/6zCIfQKcUgpsnIqOwr3v2K/f5532e81dd84804b053765008e429afb/complete_React_Developer_zero_to_mastery_ztm.png",
-    "author": "Andrei Neagoie",
-    "link": "https://www.udemy.com/course/complete-react-developer-zero-to-mastery/",
-    "slug": "complete-react-developer-redux-hooks-graphql-stripe-firebase",
+    "type": "Gatsby JS",
+    "title": "Gatsby JS Developer's Guide - Important Parts & Blog App",
+    "description": "Learn popular Gatsby JS(Gatsby v3) framework. Use React/GraphQL to build your own blog page with JAMStack architecture.",
+    "coverImage": "https://thrangra.sirv.com/Gatsby.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/gatsby-js-developer-s-guide-important-parts-blog-app",
+    "slug": "gatsby-js-developer-s-guide-important-parts-blog-app",
     "wsl": [
-      "Build enterprise level React applications and deploy to production",
-      "Use Redux, Redux Thunk and Redux Saga in your applications",
-      "Using GraphQL as a React Developer",
-      "Handling online payments with Stripe API"
+      "Build Gatsby JS apps on your own",
+      "Build static page apps with modern technologies",
+      "Understand meaning and benefits of JAMStack",
+      "Use GraphQL to your advantage"
     ],
     "createdAt": ""
   },
   {
     "id": "1112431",
-    "type": "Node JS",
-    "title": "Bootstrapping Microservices with Docker, Kubernetes and Terraform",
-    "description": "A project-based guide from zero through to a complete microservices system, including fast prototyping, development, and deployment.",
-    "coverImage": "https://images.manning.com/360/480/resize/book/8/b060324-0567-4c7b-b918-de2cf83d52ff/Davis-BM-HI.png",
-    "author": "Ashley Davis",
-    "link": "https://www.manning.com/books/bootstrapping-microservices-with-docker-kubernetes-and-terraform?a_aid=datawranglingwithjavascript&a_bid=f8e47dba",
-    "slug": "bootstrapping-microservices-docker-kubernetes-terraform",
+    "type": "Unity",
+    "title": "The Complete Unity Guide 3D - Beginner to RPG Game Dev in C#",
+    "description": "Build 3 games & learn Unity practical way! Start with fundamentals and finish with an RPG game. Using Unity 2020 and C#",
+    "coverImage": "https://thrangra.sirv.com/UnityJS.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/the-complete-unity-guide-3d-beginner-to-rpg-game-dev-in-c",
+    "slug": "the-complete-unity-guide-3d-beginner-to-rpg-game-dev-in-c",
     "wsl": [
-      "Developing and testing microservices applications",
-      "Working with cloud providers",
-      "Applying automated testing",
-      "Implementing infrastructure as code and setting up a continuous delivery pipeline."
+      "The practical approach by creating cool games",
+      "Fundamentals and core concepts of game development",
+      "Create a RPG game with tons of features",
+      "Math explanations behind the code."
     ],
     "createdAt": ""
   },
@@ -161,6 +145,22 @@
       "Understand the processes and architecture of Angular, React and Node",
       "Create own web applications in most demanded frameworks on the market",
       "Establish yourself in field of the exciting Angular, React and Node web development environment"
+    ],
+    "createdAt": ""
+  },
+  {
+    "id": "848148",
+    "type": "React JS",
+    "title": "React JS & Firebase Complete Course (incl. Chat Application)",
+    "description": "Create 'real world' React JS applications connected to Firestore (Firebase). Redux, authentication + real time features!",
+    "coverImage": "https://thrangra.sirv.com/ReactFirebase.jpeg",
+    "author": "Filip Jerga",
+    "link": "https://academy.eincode.com/courses/react-js-firebase-complete-course-incl-chat-application",
+    "slug": "react-js-firebase-complete-course-incl-chat-application",
+    "wsl": [
+      "Develop real-world web application with React JS and Firebase",
+      "Understand the processes and concepts of React JS 2",
+      "Use gained knowledge to create your own Web Applications"
     ],
     "createdAt": ""
   },
