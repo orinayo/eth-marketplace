@@ -11,7 +11,7 @@ export default function Navbar() {
   } = useAccount();
   const { pathname } = useRouter();
 
-  const renderContent = () => {
+  const renderConnectButton = () => {
     if (isLoading) {
       return (
         <Button disabled={true} onClick={connect}>
@@ -43,6 +43,20 @@ export default function Navbar() {
     return <Button onClick={connect}>Connect</Button>;
   };
 
+  const renderAddress = () => {
+    if (address && !pathname.includes("/marketplace")) {
+      return (
+        <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
+          <div className="text-white bg-indigo-600 rounded-md p-2">
+            {address}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -71,19 +85,12 @@ export default function Navbar() {
                   Wishlist
                 </a>
               </Link>
-              {renderContent()}
+              {renderConnectButton()}
             </div>
           </div>
         </nav>
       </div>
-      {address &&
-        !pathname.includes("/marketplace")(
-          <div className="flex justify-end pt-1 sm:px-6 lg:px-8">
-            <div className="text-white bg-indigo-600 rounded-md p-2">
-              {address}
-            </div>
-          </div>
-        )}
+      {renderAddress()}
     </section>
   );
 }
