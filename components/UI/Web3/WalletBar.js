@@ -1,15 +1,17 @@
+import { useWalletInfo } from "@components/hooks/web3";
 import { useWeb3 } from "@components/Providers";
 
-export default function WalletBar({
-  address,
-  network: {
-    data: networkName,
-    isSupported: networkIsSupported,
-    target: targetNetwork,
-    hasInitialResponse: networkHasInitialResponse,
-  },
-}) {
+export default function WalletBar() {
   const { requireInstall } = useWeb3();
+  const {
+    address,
+    network: {
+      data: networkName,
+      isSupported: networkIsSupported,
+      target: targetNetwork,
+      hasInitialResponse: networkHasInitialResponse,
+    },
+  } = useWalletInfo();
   return (
     <section className="text-white bg-indigo-600 rounded-lg">
       <div className="p-8">
