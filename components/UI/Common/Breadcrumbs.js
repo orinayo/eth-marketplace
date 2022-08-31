@@ -1,4 +1,4 @@
-import Link from "next/link";
+import ActiveLink from "./ActiveLink";
 
 export default function Breadcrumb({ items }) {
   return (
@@ -11,9 +11,9 @@ export default function Breadcrumb({ items }) {
               i == 0 ? "pr-4" : "px-4"
             } font-medium text-gray-500 hover:text-gray-900`}
           >
-            <Link href={href}>
+            <ActiveLink href={href}>
               <a>{value}</a>
-            </Link>
+            </ActiveLink>
           </li>
         ))}
       </ol>
