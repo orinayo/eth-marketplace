@@ -3,6 +3,7 @@ import Link from "next/link";
 
 export default function CourseCard({
   course: { coverImage, title, type, slug, description },
+  disabled,
   Footer,
 }) {
   return (
@@ -10,7 +11,7 @@ export default function CourseCard({
       <div className="flex h-full">
         <div className="flex-1 h-full next-image-wrapper">
           <Image
-            className="object-cover"
+            className={`object-cover ${disabled && "filter grayscale"}`}
             src={coverImage}
             layout="responsive"
             width="200"
