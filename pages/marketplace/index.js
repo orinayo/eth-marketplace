@@ -39,6 +39,7 @@ export default function Marketplace({ courses }) {
       {selectedCourse && (
         <OrderModal
           course={selectedCourse}
+          onSubmit={console.log}
           onClose={() => setSelectedCourse(null)}
         />
       )}
