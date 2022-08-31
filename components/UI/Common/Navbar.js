@@ -5,7 +5,7 @@ import { useAccount } from "@components/hooks/web3";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
-  const { connect, isLoading, isWeb3Loaded } = useWeb3();
+  const { connect, isLoading, requireInstall } = useWeb3();
   const {
     account: { data: address, isAdmin },
   } = useAccount();
@@ -20,7 +20,15 @@ export default function Navbar() {
       );
     }
 
-    if (!isWeb3Loaded) {
+    if (address) {
+      return (
+        <Button hoverable={false} className="cursor-default">
+          Hi there {isAdmin && "Admin"}
+        </Button>
+      );
+    }
+
+    if (requireInstall) {
       return (
         <Button
           onClick={() =>
@@ -28,14 +36,6 @@ export default function Navbar() {
           }
         >
           Install Metamask
-        </Button>
-      );
-    }
-
-    if (address) {
-      return (
-        <Button hoverable={false} className="cursor-default">
-          Hi there {isAdmin && "Admin"}
         </Button>
       );
     }
