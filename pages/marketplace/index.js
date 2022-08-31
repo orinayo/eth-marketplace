@@ -4,8 +4,11 @@ import { getAllCourses } from "@content/courses/fetcher";
 import { WalletBar } from "@components/UI/Web3";
 import { useAccount, useNetwork } from "@components/hooks/web3";
 import { Button } from "@components/UI/Common";
+import { OrderModal } from "@components/UI/Order";
+import { useState } from "react";
 
 export default function Marketplace({ courses }) {
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const {
     account: { data: address },
   } = useAccount();
@@ -23,12 +26,23 @@ export default function Marketplace({ courses }) {
             course={course}
             Footer={() => (
               <div className="mt-4">
-                <Button variant="lightPurple">Purchase</Button>
+                <Button
+                  onClick={() => setSelectedCourse(course)}
+                  variant="lightPurple"
+                >
+                  Purchase
+                </Button>
               </div>
             )}
           />
         )}
       </CourseList>
+      {selectedCourse && (
+        <OrderModal
+          course={selectedCourse}
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
     </>
   );
 }
