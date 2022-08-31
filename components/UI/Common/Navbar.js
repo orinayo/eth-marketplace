@@ -1,7 +1,7 @@
 import { useWeb3 } from "@components/Providers";
 import Link from "next/link";
 import { Button } from "@components/UI/Common";
-import { useAccount } from "@components/hooks/web3/useAccount";
+import { useAccount } from "@components/hooks/web3";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
