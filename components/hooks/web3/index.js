@@ -20,3 +20,5 @@ export const useAccount = () => {
     account: swrRes,
   };
 };
+
+export * from "./useEthPrice";

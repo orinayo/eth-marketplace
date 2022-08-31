@@ -1,8 +1,8 @@
 import { CourseCard, CourseList } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
 import { getAllCourses } from "@content/courses/fetcher";
-import { WalletBar } from "@components/UI/Web3";
-import { useAccount, useNetwork } from "@components/hooks/web3";
+import { EthRates, WalletBar } from "@components/UI/Web3";
+import { useAccount, useEthPrice, useNetwork } from "@components/hooks/web3";
 import { Button } from "@components/UI/Common";
 import { OrderModal } from "@components/UI/Order";
 import { useState } from "react";
@@ -13,11 +13,15 @@ export default function Marketplace({ courses }) {
     account: { data: address },
   } = useAccount();
   const { network } = useNetwork();
+  const {
+    eth: { data: ethPrice, perItem: ethPerItem },
+  } = useEthPrice();
 
   return (
     <>
       <div className="py-4">
         <WalletBar address={address} network={network} />
+        <EthRates eth={ethPrice} ethPerItem={ethPerItem} />
       </div>
       <CourseList courses={courses}>
         {(course) => (
