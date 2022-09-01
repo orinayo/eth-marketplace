@@ -31,10 +31,10 @@ contract CourseMarketplace {
         setContractOwner(msg.sender);
     }
 
-    // Course has already a Owner!
+    /// Course already has an owner!
     error CourseHasOwner();
 
-    // Only owner has an access!
+    /// Only the owner has access!
     error OnlyOwner();
 
     modifier onlyOwner() {
@@ -63,10 +63,6 @@ contract CourseMarketplace {
         });
     }
 
-    function transferOwnership(address newOwner) external onlyOwner {
-        setContractOwner(newOwner);
-    }
-
     function getCourseCount() external view returns (uint256) {
         return totalOwnedCourses;
     }
@@ -85,6 +81,10 @@ contract CourseMarketplace {
         returns (Course memory)
     {
         return ownedCourses[courseHash];
+    }
+
+    function transferOwnership(address newOwner) external onlyOwner {
+        setContractOwner(newOwner);
     }
 
     function getContractOwner() public view returns (address) {
