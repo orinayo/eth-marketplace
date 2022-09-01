@@ -6,10 +6,41 @@ import { Button } from "@components/UI/Common";
 import { OrderModal } from "@components/UI/Order";
 import { useState } from "react";
 import { MarketHeader } from "@components/UI/Marketplace";
+import { useWeb3 } from "@components/Providers";
 
 export default function Marketplace({ courses }) {
+  const { web3, contract } = useWeb3();
+  const {
+    canPurchaseCourse,
+    account: { data: address },
+  } = useWalletInfo();
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const { canPurchaseCourse } = useWalletInfo();
+
+  const purchaseCourse = async ({ email, price }) => {
+    const hexCourseId = web3.utils.utf8ToHex(selectedCourse.id);
+
+    const orderHash = web3.utils.soliditySha3(
+      { type: "bytes16", value: hexCourseId },
+      { type: "address", value: address }
+    );
+
+    const emailHash = web3.utils.sha3(email);
+
+    const proof = web3.utils.soliditySha3(
+      { type: "bytes32", value: emailHash },
+      { type: "bytes32", value: orderHash }
+    );
+
+    const value = web3.utils.toWei(String(price));
+
+    try {
+      await contract.methods
+        .purchaseCourse(hexCourseId, proof)
+        .send({ from: address, value });
+    } catch {
+      console.error("Failed to purchase course.");
+    }
+  };
 
   return (
     <>
@@ -39,7 +70,7 @@ export default function Marketplace({ courses }) {
       {selectedCourse && (
         <OrderModal
           course={selectedCourse}
-          onSubmit={console.log}
+          onSubmit={purchaseCourse}
           onClose={() => setSelectedCourse(null)}
         />
       )}
