@@ -1,5 +1,5 @@
 import { useAccount, useOwnedCourse } from "@components/hooks/web3";
-import { Modal } from "@components/UI/Common";
+import { Message, Modal } from "@components/UI/Common";
 import { Curriculum, CourseHero, Keypoints } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
 import { getAllCourses } from "@content/courses/fetcher";
@@ -18,10 +18,9 @@ export default function Course({ course }) {
     account: { data: address },
   } = useAccount();
   const {
-    ownedCourse: {
-      data: { state },
-    },
+    ownedCourse: { data = {} },
   } = useOwnedCourse(course, address);
+  const { state } = data;
 
   const renderCourseState = () => {
     if (state === "purchased") {

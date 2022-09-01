@@ -1,16 +1,12 @@
 import useSWR from "swr";
+import { createCourseHash } from "utils/hash";
 import { normalizeOwnedCourse } from "utils/normalize";
 
 export const createOwnedCourse = (web3, contract) => (course, address) => {
   const swrRes = useSWR(
     () => (web3 && contract && address ? `web3/ownedCourse/${address}` : null),
     async () => {
-      const hexCourseId = web3.utils.utf8ToHex(course.id);
-      const courseHash = web3.utils.soliditySha3(
-        { type: "bytes16", value: hexCourseId },
-        { type: "address", value: address }
-      );
-
+      const courseHash = createCourseHash(web3)(course.id, address);
       const ownedCourse = await contract.methods
         .getCourseByHash(courseHash)
         .call();

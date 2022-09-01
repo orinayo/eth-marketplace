@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -13,6 +14,11 @@ module.exports = {
       ...defaultTheme.screens,
     },
     extend: {
+      colors: {
+        green: colors.emerald,
+        yellow: colors.amber,
+        purple: colors.violet,
+      },
       flex: {
         2: "2 2 0%",
         3: "3 3 0%",
