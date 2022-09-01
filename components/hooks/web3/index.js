@@ -8,14 +8,14 @@ const enhanceHook = (swrRes) => {
 };
 
 export const useNetwork = () => {
-  const swrRes = enhanceHook(useHooks((hooks) => hooks.useNetwork)());
+  const swrRes = enhanceHook(useHooks(({ useNetwork }) => useNetwork)());
   return {
     network: swrRes,
   };
 };
 
 export const useAccount = () => {
-  const swrRes = enhanceHook(useHooks((hooks) => hooks.useAccount)());
+  const swrRes = enhanceHook(useHooks(({ useAccount }) => useAccount)());
   return {
     account: swrRes,
   };
@@ -29,6 +29,16 @@ export const useWalletInfo = () => {
     account,
     network,
     canPurchaseCourse: !!(account.data && network.isSupported),
+  };
+};
+
+export const useOwnedCourses = (...args) => {
+  const swrRes = enhanceHook(
+    useHooks(({ useOwnedCourses }) => useOwnedCourses)(...args)
+  );
+
+  return {
+    ownedCourses: swrRes,
   };
 };
 
