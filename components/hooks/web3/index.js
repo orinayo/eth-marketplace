@@ -42,4 +42,14 @@ export const useOwnedCourses = (...args) => {
   };
 };
 
+export const useOwnedCourse = (...args) => {
+  const swrRes = enhanceHook(
+    useHooks(({ useOwnedCourse }) => useOwnedCourse)(...args)
+  );
+
+  return {
+    ownedCourse: swrRes,
+  };
+};
+
 export * from "./useEthPrice";
