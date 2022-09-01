@@ -23,8 +23,12 @@ export const createUseAccount = (web3, provider) => () => {
   );
 
   useEffect(() => {
-    provider &&
-      provider.on("accountsChanged", (accounts) => mutate(accounts[0] ?? null));
+    const mutator = (accounts) => mutate(accounts[0] ?? null);
+    provider?.on("accountsChanged", mutator);
+
+    return () => {
+      provider?.removeListener("accountsChanged", mutator);
+    };
   }, [provider]);
 
   return {

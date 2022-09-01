@@ -66,4 +66,14 @@ export const useOwnedCourse = (...args) => {
   };
 };
 
+export const useManagedCourses = (...args) => {
+  const swrRes = enhanceHook(
+    useHooks(({ useManagedCourses }) => useManagedCourses)(...args)
+  );
+
+  return {
+    managedCourses: swrRes,
+  };
+};
+
 export * from "./useEthPrice";

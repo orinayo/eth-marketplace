@@ -1,10 +1,18 @@
 import Link from "next/link";
+import { Loader } from "../Common";
 
-export default function Curriculum({ lectures, locked, courseState }) {
+export default function Curriculum({
+  lectures,
+  locked,
+  courseState,
+  isLoading,
+}) {
   const statusClass =
     "px-2 inline-flex text-xs leading-5 font-semibold rounded-full";
 
   const renderCourseState = () => {
+    if (isLoading) return <Loader />;
+
     if (!locked) {
       <Link href="/watch">
         <a className="text-indigo-600 hover:text-indigo-900">Watch</a>
@@ -25,7 +33,7 @@ export default function Curriculum({ lectures, locked, courseState }) {
       </Link>;
     }
   };
-  
+
   return (
     <section className="max-w-5xl mx-auto">
       <div className="flex flex-col">

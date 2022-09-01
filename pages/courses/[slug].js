@@ -1,4 +1,5 @@
 import { useAccount, useOwnedCourse } from "@components/hooks/web3";
+import { useWeb3 } from "@components/Providers";
 import { Message, Modal } from "@components/UI/Common";
 import { Curriculum, CourseHero, Keypoints } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
@@ -14,6 +15,7 @@ export default function Course({ course }) {
     "Safe operator",
   ];
 
+  const { isLoading } = useWeb3();
   const {
     account: { data: address },
   } = useAccount();
@@ -55,7 +57,7 @@ export default function Course({ course }) {
   };
 
   const { title, description, coverImage, wsl } = course;
-  const isLocked = state === "purchased" || state === "deactivated";
+  const isLocked = !state || state === "purchased" || state === "deactivated";
 
   return (
     <>
@@ -69,7 +71,12 @@ export default function Course({ course }) {
       </div>
       <Keypoints points={wsl} />
       {state && <div className="max-w-5xl mx-auto">{renderCourseState()}</div>}
-      <Curriculum lectures={lectures} locked={isLocked} courseState={state} />
+      <Curriculum
+        lectures={lectures}
+        isLoading={isLoading}
+        locked={isLocked}
+        courseState={state}
+      />
       <Modal />
     </>
   );
