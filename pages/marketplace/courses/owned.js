@@ -4,6 +4,7 @@ import { OwnedCourseCard } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
 import { MarketHeader } from "@components/UI/Marketplace";
 import { getAllCourses } from "@content/courses/fetcher";
+import { useRouter } from "next/router";
 
 export default function OwnedCourses({ courses }) {
   const {
@@ -12,13 +13,16 @@ export default function OwnedCourses({ courses }) {
   const {
     ownedCourses: { data = [] },
   } = useOwnedCourses(courses, address);
+  const router = useRouter();
   return (
     <>
       <MarketHeader />
       <section className="grid grid-cols-1">
         {data.map((course) => (
           <OwnedCourseCard key={course.id} course={course}>
-            <Button>Watch the course</Button>
+            <Button onClick={() => router.push(`/courses/${course.slug}`)}>
+              Watch the course
+            </Button>
           </OwnedCourseCard>
         ))}
       </section>
