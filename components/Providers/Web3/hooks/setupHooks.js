@@ -7,7 +7,7 @@ import { createManageCourses } from "./createManageCourses";
 export const setupHooks = ({ web3, provider, contract }) => {
   return {
     useAccount: createUseAccount(web3, provider),
-    useNetwork: createUseNetwork(web3, provider),
+    useNetwork: createUseNetwork(web3),
     useOwnedCourses: createOwnedCourses(web3, contract),
     useOwnedCourse: createOwnedCourse(web3, contract),
     useManageCourses: createManageCourses(web3, contract),

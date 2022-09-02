@@ -1,8 +1,8 @@
 import { CourseCard, CourseList } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
 import { getAllCourses } from "@content/courses/fetcher";
-import { useWalletInfo } from "@components/hooks/web3";
-import { Button } from "@components/UI/Common";
+import { useOwnedCourses, useWalletInfo } from "@components/hooks/web3";
+import { Button, Loader, Message } from "@components/UI/Common";
 import { OrderModal } from "@components/UI/Order";
 import { useState } from "react";
 import { MarketHeader } from "@components/UI/Marketplace";
@@ -15,6 +15,9 @@ export default function Marketplace({ courses }) {
     isConnecting,
     account: { data: address },
   } = useWalletInfo();
+  const {
+    ownedCourses: { hasInitialResponse, lookup },
+  } = useOwnedCourses(courses, address);
   const [selectedCourse, setSelectedCourse] = useState(null);
 
   const purchaseCourse = async ({ email, price }) => {
@@ -66,6 +69,36 @@ export default function Marketplace({ courses }) {
                   <Button disabled={true} variant="lightPurple">
                     <Loader size="sm" />
                   </Button>
+                );
+              }
+
+              if (!hasInitialResponse) {
+                return <div style={{ height: "50px" }}></div>;
+              }
+
+              const owned = lookup[course.id];
+              if (owned) {
+                return (
+                  <>
+                    <Button disabled={true} variant="green">
+                      Owned
+                    </Button>
+                    <div className="mt-1">
+                      {owned.state === "activated" && (
+                        <Message size="sm">Activated</Message>
+                      )}
+                      {owned.state === "deactivated" && (
+                        <Message type="danger" size="sm">
+                          Deactivated
+                        </Message>
+                      )}
+                      {owned.state === "purchased" && (
+                        <Message type="warning" size="sm">
+                          Waiting for Activation
+                        </Message>
+                      )}
+                    </div>
+                  </>
                 );
               }
 

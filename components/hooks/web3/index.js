@@ -47,8 +47,8 @@ export const useWalletInfo = () => {
   return {
     account,
     network,
-    canPurchaseCourse: !!(account.data && network.isSupported),
     isConnecting,
+    hasConnectedWallet: !!(account.data && network.isSupported),
   };
 };
 

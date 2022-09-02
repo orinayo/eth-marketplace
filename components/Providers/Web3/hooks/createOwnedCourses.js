@@ -30,5 +30,13 @@ export const createOwnedCourses = (web3, contract) => (courses, address) => {
       return ownedCourses;
     }
   );
-  return swrRes;
+  
+  return {
+    ...swrRes,
+    lookup:
+      swrRes.data?.reduce((a, c) => {
+        a[c.id] = c;
+        return a;
+      }, {}) ?? {},
+  };
 };

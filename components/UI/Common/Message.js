@@ -15,7 +15,13 @@ const TYPES = {
   },
 };
 
-export default function Message({ children, type = "success" }) {
+const SIZES = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
+};
+
+export default function Message({ children, type = "success", size = "md" }) {
   const [isDisplayed, setIsDisplayed] = useState(true);
 
   if (!isDisplayed) {
@@ -23,13 +29,16 @@ export default function Message({ children, type = "success" }) {
   }
 
   const { bgColor, textColor } = TYPES[type];
+  const messageSizeClass = SIZES[size];
 
   return (
     <div className={`${bgColor} rounded-xl mb-3`}>
-      <div className="max-w-7xl mx-auto py-3 px-3 sm:px-3 lg:px-3">
+      <div className="max-w-7xl mx-auto py-2 px-1">
         <div className="flex items-center justify-between flex-wrap">
           <div className="w-0 flex-1 flex items-center">
-            <div className={`ml-3 font-medium ${textColor}`}>
+            <div
+              className={`ml-3 font-medium ${textColor} ${messageSizeClass}`}
+            >
               <span className="inline">{children}</span>
             </div>
           </div>
