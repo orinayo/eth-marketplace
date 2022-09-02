@@ -16,6 +16,8 @@ contract CourseMarketplace {
         State state; // 1
     }
 
+    bool public isStopped = false;
+
     // mapping of courseHash to Course data
     mapping(bytes32 => Course) private ownedCourses;
 
@@ -53,7 +55,23 @@ contract CourseMarketplace {
         _;
     }
 
-    function activateCourse(bytes32 courseHash) external onlyOwner {
+    modifier onlyWhenNotStopped() {
+        require(!isStopped);
+        _;
+    }
+
+    modifier onlyWhenStopped() {
+        require(isStopped);
+        _;
+    }
+
+    receive() external payable {}
+
+    function activateCourse(bytes32 courseHash)
+        external
+        onlyWhenNotStopped
+        onlyOwner
+    {
         if (!isCourseCreated(courseHash)) {
             revert CourseIsNotCreated();
         }
@@ -67,7 +85,11 @@ contract CourseMarketplace {
         course.state = State.Activated;
     }
 
-    function deactivateCourse(bytes32 courseHash) external onlyOwner {
+    function deactivateCourse(bytes32 courseHash)
+        external
+        onlyWhenNotStopped
+        onlyOwner
+    {
         if (!isCourseCreated(courseHash)) {
             revert CourseIsNotCreated();
         }
@@ -85,7 +107,11 @@ contract CourseMarketplace {
         course.price = 0;
     }
 
-    function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
+    function purchaseCourse(bytes16 courseId, bytes32 proof)
+        external
+        payable
+        onlyWhenNotStopped
+    {
         bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
 
         if (hasCourseOwnership(courseHash)) {
@@ -104,7 +130,11 @@ contract CourseMarketplace {
         });
     }
 
-    function repurchaseCourse(bytes32 courseHash) external payable {
+    function repurchaseCourse(bytes32 courseHash)
+        external
+        payable
+        onlyWhenNotStopped
+    {
         if (!isCourseCreated(courseHash)) {
             revert CourseIsNotCreated();
         }
@@ -167,5 +197,27 @@ contract CourseMarketplace {
 
     function setContractOwner(address newOwner) private {
         owner = payable(newOwner);
+    }
+
+    function stopContract() external onlyOwner {
+        isStopped = true;
+    }
+
+    function resumeContract() external onlyOwner {
+        isStopped = false;
+    }
+
+    function withdraw(uint256 amount) external onlyOwner {
+        (bool success, ) = owner.call{value: amount}("");
+        require(success, "Transfer failed.");
+    }
+
+    function emergencyWithdraw() external onlyWhenStopped onlyOwner {
+        (bool success, ) = owner.call{value: address(this).balance}("");
+        require(success, "Transfer failed.");
+    }
+
+    function selfDestruct() external onlyWhenStopped onlyOwner {
+        selfdestruct(owner);
     }
 }
