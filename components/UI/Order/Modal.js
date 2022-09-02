@@ -62,6 +62,7 @@ export default function OrderModal({
         price: ethPerItem,
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course]);
 
   const closeModal = () => {

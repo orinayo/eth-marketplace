@@ -31,6 +31,7 @@ export default function OwnedCourseCard({
               width="45"
               height="45"
               layout="responsive"
+              alt={title}
             />
           </div>
         </div>

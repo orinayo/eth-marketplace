@@ -30,6 +30,7 @@ export const createUseAccount = (web3, provider) => () => {
     return () => {
       provider?.removeListener("accountsChanged", mutator);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provider]);
 
   return {

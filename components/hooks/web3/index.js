@@ -92,6 +92,7 @@ export const useAdmin = ({ redirectTo }) => {
     if (requireInstall || (hasInitialResponse && !isAdmin) || isEmpty) {
       router.push(redirectTo);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
   return { account };

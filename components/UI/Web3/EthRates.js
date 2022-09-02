@@ -17,6 +17,7 @@ export default function EthRates() {
                 height="35"
                 width="35"
                 src="/small-eth.webp"
+                alt="Ethereum Logo"
               />
               <span className="text-xl font-bold">= {ethPrice}$</span>
             </>
@@ -38,6 +39,7 @@ export default function EthRates() {
                 height="35"
                 width="35"
                 src="/small-eth.webp"
+                alt="Ethereum Logo"
               />
               <span className="text-xl font-bold">= {COURSE_PRICE}$</span>
             </>
