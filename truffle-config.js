@@ -73,6 +73,22 @@ module.exports = {
       confirmations: 2, // # of confirmations to wait between deployments. (default: 0)
       timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
     },
+    live: {
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: keys.MNEMONIC,
+          },
+          providerOrUrl: `https://mainet.infura.io/v3/${keys.INFURA_PROJECT_ID}`,
+          addressIndex: 0,
+        }),
+      network_id: 1,
+      gas: 2500000, // Gas Limit, How much gas we are willing to spent
+      gasPrice: 71000000000, // how much we are willing to spent for unit of gas
+      confirmations: 2, // number of blocks to wait between deployment
+      timeoutBlocks: 200, // number of blocks before deployment times out
+      skipDryRun: true,
+    },
     //
     // Useful for private networks
     // private: {
@@ -123,6 +139,3 @@ module.exports = {
   //   }
   // }
 };
-
-// NEXT_PUBLIC_TARGET_CHAIN_ID=1337
-// NEXT_PUBLIC_NETWORK_ID=5777
