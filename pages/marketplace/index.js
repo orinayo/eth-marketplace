@@ -9,9 +9,10 @@ import { MarketHeader } from "@components/UI/Marketplace";
 import { useWeb3 } from "@components/Providers";
 
 export default function Marketplace({ courses }) {
-  const { web3, contract } = useWeb3();
+  const { web3, contract, requireInstall } = useWeb3();
   const {
-    canPurchaseCourse,
+    hasConnectedWallet,
+    isConnecting,
     account: { data: address },
   } = useWalletInfo();
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -50,18 +51,34 @@ export default function Marketplace({ courses }) {
           <CourseCard
             key={course.id}
             course={course}
-            disabled={!canPurchaseCourse}
-            Footer={() => (
-              <div className="mt-4">
+            disabled={!hasConnectedWallet}
+            Footer={() => {
+              if (requireInstall) {
+                return (
+                  <Button disabled={true} variant="lightPurple">
+                    Install
+                  </Button>
+                );
+              }
+
+              if (isConnecting) {
+                return (
+                  <Button disabled={true} variant="lightPurple">
+                    <Loader size="sm" />
+                  </Button>
+                );
+              }
+
+              return (
                 <Button
                   onClick={() => setSelectedCourse(course)}
-                  disabled={!canPurchaseCourse}
+                  disabled={!hasConnectedWallet}
                   variant="lightPurple"
                 >
                   Purchase
                 </Button>
-              </div>
-            )}
+              );
+            }}
           />
         )}
       </CourseList>
