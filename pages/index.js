@@ -1,5 +1,5 @@
 import { Hero } from "@components/UI/Common";
-import { CourseList } from "@components/UI/Course";
+import { CourseCard, CourseList } from "@components/UI/Course";
 import { BaseLayout } from "@components/UI/Layout";
 import { getAllCourses } from "@content/courses/fetcher";
 
@@ -7,7 +7,9 @@ export default function Home({ courses }) {
   return (
     <>
       <Hero />
-      <CourseList courses={courses} />
+      <CourseList courses={courses}>
+        {(course) => <CourseCard key={course.id} course={course} />}
+      </CourseList>
     </>
   );
 }

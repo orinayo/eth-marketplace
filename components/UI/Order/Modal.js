@@ -41,7 +41,7 @@ const createFormState = (
 };
 
 export default function OrderModal({
-  course: { title, id },
+  course,
   onClose,
   onSubmit,
   isNewPurchase,
@@ -55,14 +55,14 @@ export default function OrderModal({
   } = useEthPrice();
 
   useEffect(() => {
-    if (!!id) {
+    if (!!course) {
       setIsOpen(true);
       setOrder({
         ...defaultOrder,
         price: ethPerItem,
       });
     }
-  }, [id]);
+  }, [course]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -88,7 +88,7 @@ export default function OrderModal({
                 className="mb-7 text-lg font-bold leading-6 text-gray-900"
                 id="modal-title"
               >
-                {title}
+                {course.title}
               </h3>
               <div className="mt-1 relative rounded-md">
                 <div className="mb-1">
@@ -210,7 +210,7 @@ export default function OrderModal({
           <Button
             disabled={isDisabled}
             onClick={() => {
-              onSubmit(order);
+              onSubmit(order, course);
             }}
           >
             Submit
