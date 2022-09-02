@@ -1,8 +1,17 @@
 const CourseMarketplace = artifacts.require("CourseMarketplace");
 const { catchRevert } = require("./utils/exceptions");
-
 // Mocha - testing framework
 // Chai - assertion JS library
+
+const getBalance = async (address) => web3.eth.getBalance(address);
+const toBN = (value) => web3.utils.toBN(value);
+const getGas = async (result) => {
+  const tx = await web3.eth.getTransaction(result.tx);
+  const gasUsed = toBN(result.receipt.gasUsed);
+  const gasPrice = toBN(tx.gasPrice);
+  const gas = gasUsed.mul(gasPrice);
+  return gas;
+};
 
 contract("CourseMarketplace", (accounts) => {
   const courseId = "0x00000000000000000000000000003130";
@@ -93,10 +102,12 @@ contract("CourseMarketplace", (accounts) => {
 
   describe("deactivateCourse", () => {
     let courseHash2 = null;
+    let currentOwner = null;
 
     before(async () => {
       await _contract.purchaseCourse(courseId2, proof2, { from: buyer, value });
       courseHash2 = await _contract.getCourseHashAtIndex(1);
+      currentOwner = await _contract.getContractOwner();
     });
 
     it("should not be able to deactivate the course if not contract owner", async () => {
@@ -106,13 +117,42 @@ contract("CourseMarketplace", (accounts) => {
     });
 
     it("should have status of deactivated and price 0", async () => {
-      await _contract.deactivateCourse(courseHash2, { from: contractOwner });
+      const beforeTxBuyerBalance = await getBalance(buyer);
+      const beforeTxContractBalance = await getBalance(_contract.address);
+      const beforeTxOwnerBalance = await getBalance(currentOwner);
+
+      const result = await _contract.deactivateCourse(courseHash2, {
+        from: contractOwner,
+      });
+
+      const afterTxBuyerBalance = await getBalance(buyer);
+      const afterTxContractBalance = await getBalance(_contract.address);
+      const afterTxOwnerBalance = await getBalance(currentOwner);
+
       const course = await _contract.getCourseByHash(courseHash2);
       const expectedState = 2;
-      const exptectedPrice = 0;
+      const expectedPrice = 0;
+      const gas = await getGas(result);
 
       assert.equal(course.state, expectedState, "Course is NOT deactivated!");
-      assert.equal(course.price, exptectedPrice, "Course price is not 0!");
+      assert.equal(course.price, expectedPrice, "Course price is not 0!");
+      assert.equal(
+        toBN(beforeTxOwnerBalance).sub(gas).toString(),
+        afterTxOwnerBalance,
+        "Contract owner balance is not correct"
+      );
+
+      assert.equal(
+        toBN(beforeTxBuyerBalance).add(toBN(value)).toString(),
+        afterTxBuyerBalance,
+        "Buyer balance is not correct"
+      );
+
+      assert.equal(
+        toBN(beforeTxContractBalance).sub(toBN(value)).toString(),
+        afterTxContractBalance,
+        "Contract balance is not correct"
+      );
     });
 
     it("should not be able activate deactivated course", async () => {
@@ -145,9 +185,20 @@ contract("CourseMarketplace", (accounts) => {
     });
 
     it("should be able to repurchase if user is the original buyer", async () => {
-      await _contract.repurchaseCourse(courseHash2, { from: buyer, value });
+      const beforeTxBuyerBalance = await getBalance(buyer);
+      const beforeTxContractBalance = await getBalance(_contract.address);
+
+      const result = await _contract.repurchaseCourse(courseHash2, {
+        from: buyer,
+        value,
+      });
+
+      const afterTxBuyerBalance = await getBalance(buyer);
+      const afterTxContractBalance = await getBalance(_contract.address);
+
       const course = await _contract.getCourseByHash(courseHash2);
       const expectedState = 0;
+      const gas = await getGas(result);
 
       assert.equal(
         course.state,
@@ -158,6 +209,16 @@ contract("CourseMarketplace", (accounts) => {
         course.price,
         value,
         `The course price is not equal to ${value}`
+      );
+      assert.equal(
+        toBN(beforeTxBuyerBalance).sub(toBN(value)).sub(gas).toString(),
+        afterTxBuyerBalance,
+        "Client balance is not correct!"
+      );
+      assert.equal(
+        toBN(beforeTxContractBalance).add(toBN(value)).toString(),
+        afterTxContractBalance,
+        "Contract balance is not correct!"
       );
     });
 
