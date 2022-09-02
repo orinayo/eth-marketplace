@@ -37,11 +37,31 @@ contract CourseMarketplace {
     /// Only the owner has access!
     error OnlyOwner();
 
+    /// Course has invalid state!
+    error InvalidState();
+
+    /// Course is not created!
+    error CourseIsNotCreated();
+
     modifier onlyOwner() {
         if (msg.sender != getContractOwner()) {
             revert OnlyOwner();
         }
         _;
+    }
+
+    function activateCourse(bytes32 courseHash) external onlyOwner {
+        if (!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+
+        Course storage course = ownedCourses[courseHash];
+
+        if (course.state != State.Purchased) {
+            revert InvalidState();
+        }
+
+        course.state = State.Activated;
     }
 
     function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
@@ -83,6 +103,20 @@ contract CourseMarketplace {
         return ownedCourses[courseHash];
     }
 
+    function hasCourseOwnership(bytes32 courseHash)
+        private
+        view
+        returns (bool)
+    {
+        return ownedCourses[courseHash].owner == msg.sender;
+    }
+
+    function isCourseCreated(bytes32 courseHash) private view returns (bool) {
+        return
+            ownedCourses[courseHash].owner !=
+            0x0000000000000000000000000000000000000000;
+    }
+
     function transferOwnership(address newOwner) external onlyOwner {
         setContractOwner(newOwner);
     }
@@ -93,13 +127,5 @@ contract CourseMarketplace {
 
     function setContractOwner(address newOwner) private {
         owner = payable(newOwner);
-    }
-
-    function hasCourseOwnership(bytes32 courseHash)
-        private
-        view
-        returns (bool)
-    {
-        return ownedCourses[courseHash].owner == msg.sender;
     }
 }
