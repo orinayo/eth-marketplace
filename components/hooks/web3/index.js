@@ -66,9 +66,9 @@ export const useOwnedCourse = (...args) => {
   };
 };
 
-export const useManagedCourses = (...args) => {
+export const useManageCourses = (...args) => {
   const swrRes = enhanceHook(
-    useHooks(({ useManagedCourses }) => useManagedCourses)(...args)
+    useHooks(({ useManageCourses }) => useManageCourses)(...args)
   );
 
   return {

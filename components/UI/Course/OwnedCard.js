@@ -1,16 +1,25 @@
 import Image from "next/image";
 
 const STATE_COLORS = {
-  purchased: "indigo",
-  activated: "green",
-  deactivated: "red",
+  purchased: {
+    bgColor: "bg-indigo-200",
+    textColor: "text-indigo-700",
+  },
+  activated: {
+    bgColor: "bg-green-200",
+    textColor: "text-green-700",
+  },
+  deactivated: {
+    bgColor: "bg-red-200",
+    textColor: "text-red-700",
+  },
 };
 
 export default function OwnedCourseCard({
   children,
   course: { title, price, ownedCourseId, proof, coverImage, state },
 }) {
-  const stateColor = STATE_COLORS[state];
+  const { bgColor, textColor } = STATE_COLORS[state];
   return (
     <div className="bg-white border shadow overflow-hidden sm:rounded-lg mb-3">
       <div className="block sm:flex">
@@ -30,7 +39,7 @@ export default function OwnedCourseCard({
             <h3 className="text-lg leading-6 font-medium text-gray-900">
               <span className="mr-2">{title}</span>
               <span
-                className={`text-xs text-${stateColor}-700 bg-${stateColor}-200 rounded-full p-2`}
+                className={`text-xs ${textColor} ${bgColor} rounded-full p-2`}
               >
                 {state}
               </span>
