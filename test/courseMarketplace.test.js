@@ -8,6 +8,9 @@ contract("CourseMarketplace", (accounts) => {
   const courseId = "0x00000000000000000000000000003130";
   const proof =
     "0x0000000000000000000000000000313000000000000000000000000000003130";
+  const courseId2 = "0x00000000000000000000000000002130";
+  const proof2 =
+    "0x0000000000000000000000000000213000000000000000000000000000002130";
   const value = "900000000";
 
   let _contract = null;
@@ -21,7 +24,7 @@ contract("CourseMarketplace", (accounts) => {
     buyer = accounts[1];
   });
 
-  describe("Purchase the new course", () => {
+  describe("purchaseCourse", () => {
     before(async () => {
       await _contract.purchaseCourse(courseId, proof, {
         from: buyer,
@@ -70,7 +73,7 @@ contract("CourseMarketplace", (accounts) => {
     });
   });
 
-  describe("Activate the purchased course", () => {
+  describe("activateCourse", () => {
     it("should not be able to activate course if not contract owner", async () => {
       await catchRevert(_contract.activateCourse(courseHash, { from: buyer }));
     });
@@ -88,7 +91,84 @@ contract("CourseMarketplace", (accounts) => {
     });
   });
 
-  describe("Transfer ownership", () => {
+  describe("deactivateCourse", () => {
+    let courseHash2 = null;
+
+    before(async () => {
+      await _contract.purchaseCourse(courseId2, proof2, { from: buyer, value });
+      courseHash2 = await _contract.getCourseHashAtIndex(1);
+    });
+
+    it("should not be able to deactivate the course if not contract owner", async () => {
+      await catchRevert(
+        _contract.deactivateCourse(courseHash2, { from: buyer })
+      );
+    });
+
+    it("should have status of deactivated and price 0", async () => {
+      await _contract.deactivateCourse(courseHash2, { from: contractOwner });
+      const course = await _contract.getCourseByHash(courseHash2);
+      const expectedState = 2;
+      const exptectedPrice = 0;
+
+      assert.equal(course.state, expectedState, "Course is NOT deactivated!");
+      assert.equal(course.price, exptectedPrice, "Course price is not 0!");
+    });
+
+    it("should not be able activate deactivated course", async () => {
+      await catchRevert(
+        _contract.activateCourse(courseHash2, { from: contractOwner })
+      );
+    });
+  });
+
+  describe("repurchaseCourse", () => {
+    let courseHash2 = null;
+
+    before(async () => {
+      courseHash2 = await _contract.getCourseHashAtIndex(1);
+    });
+
+    it("should not repurchase if the course doesn't exist", async () => {
+      const nonExistentHash =
+        "0x5ceb3f8075c3dbb5d490c8d1e6c950302ed065e1a9031750ad2c6513069e3fc3";
+      await catchRevert(
+        _contract.repurchaseCourse(nonExistentHash, { from: buyer })
+      );
+    });
+
+    it("should not repurchase if not course owner", async () => {
+      const notOwnerAddress = accounts[2];
+      await catchRevert(
+        _contract.repurchaseCourse(courseHash2, { from: notOwnerAddress })
+      );
+    });
+
+    it("should be able to repurchase if user is the original buyer", async () => {
+      await _contract.repurchaseCourse(courseHash2, { from: buyer, value });
+      const course = await _contract.getCourseByHash(courseHash2);
+      const expectedState = 0;
+
+      assert.equal(
+        course.state,
+        expectedState,
+        "The course is not in purchased state"
+      );
+      assert.equal(
+        course.price,
+        value,
+        `The course price is not equal to ${value}`
+      );
+    });
+
+    it("should not be able to repurchase purchased course", async () => {
+      await catchRevert(
+        _contract.repurchaseCourse(courseHash2, { from: buyer })
+      );
+    });
+  });
+
+  describe("transferOwnership", () => {
     let currentOwner = null;
 
     before(async () => {

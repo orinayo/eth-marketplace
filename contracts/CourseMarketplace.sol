@@ -31,16 +31,19 @@ contract CourseMarketplace {
         setContractOwner(msg.sender);
     }
 
-    /// Course already has an owner!
+    /// You have already purchased this course!
     error CourseHasOwner();
 
-    /// Only the owner has access!
+    /// Only the contract owner has access!
     error OnlyOwner();
+
+    /// You have not purchased this course!
+    error SenderIsNotCourseOwner();
 
     /// Course has invalid state!
     error InvalidState();
 
-    /// Course is not created!
+    /// The user has not purchased this course!
     error CourseIsNotCreated();
 
     modifier onlyOwner() {
@@ -64,6 +67,24 @@ contract CourseMarketplace {
         course.state = State.Activated;
     }
 
+    function deactivateCourse(bytes32 courseHash) external onlyOwner {
+        if (!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+
+        Course storage course = ownedCourses[courseHash];
+
+        if (course.state != State.Purchased) {
+            revert InvalidState();
+        }
+
+        (bool success, ) = course.owner.call{value: course.price}("");
+        require(success, "Transfer failed!");
+
+        course.state = State.Deactivated;
+        course.price = 0;
+    }
+
     function purchaseCourse(bytes16 courseId, bytes32 proof) external payable {
         bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
 
@@ -81,6 +102,25 @@ contract CourseMarketplace {
             owner: msg.sender,
             state: State.Purchased
         });
+    }
+
+    function repurchaseCourse(bytes32 courseHash) external payable {
+        if (!isCourseCreated(courseHash)) {
+            revert CourseIsNotCreated();
+        }
+
+        if (!hasCourseOwnership(courseHash)) {
+            revert SenderIsNotCourseOwner();
+        }
+
+        Course storage course = ownedCourses[courseHash];
+
+        if (course.state != State.Deactivated) {
+            revert InvalidState();
+        }
+
+        course.state = State.Purchased;
+        course.price = msg.value;
     }
 
     function getCourseCount() external view returns (uint256) {
