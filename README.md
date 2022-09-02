@@ -2,6 +2,9 @@
 
 This is a [Next.js](https://nextjs.org/) project.
 
+## Visit live app
+https://eth-marketplace-orinayo.vercel.app/marketplace
+
 ## Overview
 
 Marketplace has dependencies on multiple technologies.
